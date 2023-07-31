@@ -52,13 +52,13 @@ export default function Fav() {
     if (favoriteStories.includes(story_id[index])) {
       // Story is already in favorites, so remove it from the list
       setFavoriteStories(favoriteStories.filter((id) => id !== story_id[index]));
-      const response = await fetch('https://story-backend-qu52.onrender.com/user/favorites', {
+      const response = await fetch(`https://story-backend-qu52.onrender.com/user/favorites?story_id=${story_id[index]}&email=${session.user.email}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ story_id: story_id[index], email: session.user.email }),
       });
+      
     } else {
       // Story is not in favorites, so add it to the list
       setFavoriteStories([...favoriteStories, story_id[index]]);

@@ -118,13 +118,13 @@ export default function random() {
             })
         }
         else {
-            const response = await fetch('https://story-backend-qu52.onrender.com/user/favorites', {
+            const response = await fetch(`https://story-backend-qu52.onrender.com/user/favorites?story_id=${story_id[index]}&email=${session.user.email}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ story_id: story_id, email: session.user.email }),
             });
+
         }
 
     };
