@@ -30,17 +30,12 @@ export default function Fav() {
   const endIndex = Math.min(startIndex + storiesPerPage, story_title.length);
 
   // Slice the story_title array to get the stories for the current page
-  const paginatedStories = story_title.slice(startIndex, endIndex);
 
-  const visiblePages = 7;
+  const paginatedStories = story_title.slice(startIndex, endIndex);
+  const visiblePages = Math.min(totalPages, 7);
   const halfVisiblePages = Math.floor(visiblePages / 2);
   let startPage = Math.max(1, currentPage - halfVisiblePages);
   const endPage = Math.min(startPage + visiblePages - 1, totalPages);
-
-  if (endPage - startPage + 1 < visiblePages) {
-    // Adjust startPage if there are fewer visible pages than desired
-    startPage = Math.max(1, endPage - visiblePages + 1);
-  }
   const handleFirstPage = () => {
     setCurrentPage(1);
   };
@@ -154,19 +149,19 @@ export default function Fav() {
                   const realIndex = (currentPage - 1) * 12 + index; // Calculate the actual index in the original array
                   const isFavorite = favoriteStories.includes(story_id[realIndex]);
                   return (
-                    <li key={story_id[index]} className="bg-white p-4 shadow dark:bg-gray-800">
+                    <li key={story_id[realIndex]} className="bg-white p-4 shadow dark:bg-gray-800">
                       <div className="flex justify-between items-center">
-                        <h3 className="text-lg font-semibold">{title}</h3>
+                        <h3 className="text-lg font-semibold">{story_title[realIndex]}</h3>
 
                         <div className="flex space-x-2">
                           <button
-                            title={favoriteStories.includes(story_id[index]) ? 'Remove from Favorites' : 'Add to Favorites'}
+                            title={favoriteStories.includes(story_id[realIndex]) ? 'Remove from Favorites' : 'Add to Favorites'}
                             className="relative transition-colors duration-300 focus:outline-none"
-                            onClick={() => handleAddToFavorites(index)}
+                            onClick={() => handleAddToFavorites(realIndex)}
                           >
                             <svg
-                              className={`w-6 h-6 ${favoriteStories.includes(story_id[index]) ? 'text-yellow-500' : ''}`}
-                              fill={`${favoriteStories.includes(story_id[index]) ? 'currentColor' : 'none'}`}
+                              className={`w-6 h-6 ${favoriteStories.includes(story_id[realIndex]) ? 'text-yellow-500' : ''}`}
+                              fill={`${favoriteStories.includes(story_id[realIndex]) ? 'currentColor' : 'none'}`}
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                             >
@@ -178,22 +173,22 @@ export default function Fav() {
                               />
                             </svg>
                           </button>
-                          <button className="flex items-center justify-center w-10 h-10" onClick={() => handleshare(title, `https://story-teller-lilac.vercel.app/story/${story_id[index]}`)}>
+                          <button className="flex items-center justify-center w-10 h-10" onClick={() => handleshare(story_title[realIndex], `https://story-teller-lilac.vercel.app/story/${story_id[index]}`)}>
                             <i className="material-symbols-outlined">share</i>
                           </button>
                         </div>
                       </div>
                       <button
                         className="text-blue-500 hover:underline mt-2"
-                        onClick={() => handleTitleClick(index)}
+                        onClick={() => handleTitleClick(realIndex)}
                       >
-                        {selectedStoryIndices.includes(index) ? 'Hide' : 'Show More'}
+                        {selectedStoryIndices.includes(realIndex) ? 'Hide' : 'Show More'}
                       </button>
-                      {selectedStoryIndices.includes(index) && (
-                        <p className="text-gray-700 whitespace-pre-wrap dark:text-white">Story: {story[index]}</p>
+                      {selectedStoryIndices.includes(realIndex) && (
+                        <p className="text-gray-700 whitespace-pre-wrap dark:text-white">{story[realIndex]}</p>
                       )}
                       <audio className="mt-2" controls>
-                        <source src={story_audio[index]} type="audio/mpeg" />
+                        <source src={story_audio[realIndex]} type="audio/mpeg" />
                         Your browser does not support the audio element.
                       </audio>
                       {showSharePopup && <SharePopup message={`Link to ${sharedStoryUrl} copied to clipboard`} />}

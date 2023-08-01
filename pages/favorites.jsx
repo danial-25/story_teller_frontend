@@ -12,6 +12,38 @@ export default function Favorites() {
     const [showSharePopup, setShowSharePopup] = useState(false);
     const [sharedStoryUrl, setSharedStoryUrl] = useState('');
     const [timeoutId, setTimeoutId] = useState(null);
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Set the number of stories to display per page
+    const storiesPerPage = 8;
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(story_title.length / storiesPerPage);
+
+    // Function to update the current page number
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const startIndex = (currentPage - 1) * storiesPerPage;
+    const endIndex = Math.min(startIndex + storiesPerPage, story_title.length);
+
+    // Slice the story_title array to get the stories for the current page
+    const paginatedStories = story_title.slice(startIndex, endIndex);
+    const visiblePages = Math.min(totalPages, 7);
+    const halfVisiblePages = Math.floor(visiblePages / 2);
+    let startPage = Math.max(1, currentPage - halfVisiblePages);
+    const endPage = Math.min(startPage + visiblePages - 1, totalPages);
+    const handleFirstPage = () => {
+        setCurrentPage(1);
+    };
+
+    // Function to navigate to the last page
+    const handleLastPage = () => {
+        setCurrentPage(totalPages);
+    };
+
     useEffect(() => {
         if (status === 'authenticated') {
             // Fetch user story vectors based on the current session's email
@@ -127,9 +159,9 @@ export default function Favorites() {
                             </div>
                         ) : story_title.length > 0 ? (
                             <ul className="space-y-4">
-                                {story_title.map((title, index) => {
-                                    const isFavorite = story_id.includes(story_id[index]);
-
+                                {paginatedStories.map((title, index) => {
+                                    const realIndex = (currentPage - 1) * 12 + index; // Calculate the actual index in the original array
+                                    const isFavorite = story_id.includes(story_id[realIndex]);
                                     return (
                                         <li key={story_id[index]} className="relative bg-white p-4 shadow mb-4 dark:bg-gray-800">
                                             <div className="flex justify-between items-center">
@@ -166,7 +198,7 @@ export default function Favorites() {
                                                 {selectedStoryIndices.includes(index) ? 'Hide' : 'Show More'}
                                             </button>
                                             {selectedStoryIndices.includes(index) && (
-                                                <p className="text-gray-700 whitespace-pre-wrap dark:text-white">Story: {story[index]}</p>
+                                                <p className="text-gray-700 whitespace-pre-wrap dark:text-white">{story[index]}</p>
                                             )}
                                             <audio className="mt-2" controls>
                                                 <source src={story_audio[index]} type="audio/mpeg" />
@@ -179,6 +211,74 @@ export default function Favorites() {
                             </ul>
                         ) : (
                             <p>No stories found.</p>
+                        )}
+                        {totalPages > 1 && (
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    className={`px-2 py-1 w-8 ${currentPage === 1 ? 'opacity-50' : ' rounded-md'
+                                        } mr-2 mt-2`}
+                                    disabled={currentPage === 1}
+                                    onClick={handleFirstPage}
+                                >
+                                    <i className="material-symbols-outlined">first_page</i> {/* Add h-6 class */}
+                                </button>
+                                <button
+                                    className={`px-2 py-1 w-8 ${currentPage === 1 ? 'opacity-50 ' : ' rounded-md'
+                                        } mr-2 mt-2`}
+                                    disabled={currentPage === 1}
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                >
+                                    <i className="material-symbols-outlined">chevron_left</i>
+                                </button>
+
+                                {/* Display page numbers */}
+                                <div className="flex">
+                                    {/* Show ellipsis if startPage is greater than 1 */}
+                                    {startPage > 1 && visiblePages > 7 && (
+                                        <span className="px-2 py-1 w-8 border border-transparent rounded-md">
+                                            ...
+                                        </span>
+                                    )}
+
+                                    {Array.from({ length: visiblePages }).map((_, index) => {
+                                        const pageNumber = startPage + index;
+                                        return (
+                                            <button
+                                                key={pageNumber}
+                                                className={`px-2 py-1 w-8 ${currentPage === pageNumber ? 'bg-gray-500 text-white' : ''
+                                                    }`}
+                                                onClick={() => handlePageChange(pageNumber)}
+                                            >
+                                                {pageNumber}
+                                            </button>
+                                        );
+                                    })}
+
+                                    {/* Show ellipsis if endPage is less than totalPages */}
+                                    {endPage < totalPages && visiblePages > 7 && (
+                                        <span className="px-2 py-1 w-8 border border-transparent rounded-md">
+                                            ...
+                                        </span>
+                                    )}
+                                </div>
+
+                                <button
+                                    className={`px-2 py-1 w-8 ${currentPage === totalPages ? 'opacity-50' : ' rounded-md'
+                                        } ml-2 mt-2`}
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                >
+                                    <i className="material-symbols-outlined">chevron_right</i>
+                                </button>
+                                <button
+                                    className={`px-2 py-1 w-8 ${currentPage === totalPages ? 'opacity-50' : ' rounded-md'
+                                        } ml-2 mt-2`}
+                                    disabled={currentPage === totalPages}
+                                    onClick={handleLastPage}
+                                >
+                                    <i className="material-symbols-outlined">last_page</i> {/* Add h-6 class */}
+                                </button>
+                            </div>
                         )}
                     </>
                 )}
