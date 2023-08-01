@@ -44,7 +44,7 @@ export default function Character() {
     return (
         <Layout>
             <main className="container mx-auto my-8">
-                {!isAuthenticated ? (
+                {status !== 'authenticated' ? (
                     <p>Log in to view the user info</p>
                 ) : (
                     <>
