@@ -151,7 +151,7 @@ export default function random() {
                 <div className="flex justify-center items-center mb-4"> {/* Add "items-center" class here */}
                     <button
                         onClick={handleRandom}
-                        className="bg-gray-400 text-white px-5 py-3 rounded h-12"
+                        className="bg-gray-400 text-white px-4 py-2 rounded h-10"
                         title="Generate random story"
                     >
                         <i className="material-symbols-outlined">shuffle</i>
