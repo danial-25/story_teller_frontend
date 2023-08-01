@@ -14,7 +14,7 @@ function Header() {
 
   // Function to determine if the screen size is small (less than 640 pixels width)
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-
+  const [activeTab, setActiveTab] = useState('/');
   // Function to determine if the screen size is small (less than 640 pixels width)
   const checkIsSmallScreen = () => {
     setIsSmallScreen(window.innerWidth < 640);
@@ -34,6 +34,9 @@ function Header() {
       window.removeEventListener('resize', checkIsSmallScreen);
     };
   }, []);
+  useEffect(() => {
+    setActiveTab(window.location.pathname);
+  }, []);
   return (
     <header>
       <nav className="bg-white border border-gray-200 dark:border-transparent px-4 lg:px-6 py-2.5 dark:bg-gray-800">
@@ -48,19 +51,19 @@ function Header() {
               <ul className={`hidden lg:flex mt-4 font-medium space-x-8 ${isSmallScreen ? 'lg:hidden' : ''}`}>
                 {/* Navigation links */}
                 <li>
-                  <a href="/" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">Home</a>
+                  <a href="/" className={`${activeTab === '/' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Home</a>
                 </li>
                 <li>
-                  <a href="/random" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">Random</a>
+                  <a href="/random" className={`${activeTab === '/random' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Random</a>
                 </li>
                 <li>
-                  <a href="/history" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">History</a>
+                  <a href="/history" className={`${activeTab === '/history' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>History</a>
                 </li>
                 <li>
-                  <a href="/favorites" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">Favorites</a>
+                  <a href="/favorites" className={`${activeTab === '/favorites' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Favorites</a>
                 </li>
                 <li>
-                  <a href="/user-character" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">User</a>
+                  <a href="/user-character" className={`${activeTab === '/user-character' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>User</a>
                 </li>
               </ul>
 
