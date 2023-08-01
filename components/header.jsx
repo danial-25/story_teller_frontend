@@ -172,16 +172,16 @@ function Header() {
         <div className={`lg:hidden ${isMobileMenuOpen ? '' : 'hidden'}`}>
           <ul className="flex justify-center items-center mt-4 font-medium space-x-8">
             <li>
-              <a href="/" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">Home</a>
+              <a href="/" className={`${activeTab === '/' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Home</a>
             </li>
             <li>
-              <a href="/random" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">Random</a>
+              <a href="/random" className={`${activeTab === '/random' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Random</a>
             </li>
             <li>
-              <a href="/history" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">History</a>
+              <a href="/history" className={`${activeTab === '/history' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>History</a>
             </li>
             <li>
-              <a href="/favorites" className="text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white">Favorites</a>
+              <a href="/favorites" className={`${activeTab === '/favorites' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Favorites</a>
             </li>
           </ul>
         </div>
