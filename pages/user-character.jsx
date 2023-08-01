@@ -44,7 +44,9 @@ export default function Character() {
     return (
         <Layout>
             <main className="container mx-auto my-8">
-                {status === 'authenticated' && (
+                {!isAuthenticated ? (
+                    <p>Log in to view the user info</p>
+                ) : (
                     <>
                         {isLoading ? (
                             <div className="flex items-center justify-center space-x-2">
@@ -58,7 +60,7 @@ export default function Character() {
                                     // Display the character/story here
                                     <p>{character}</p>
                                 ) : (
-                                    <p>Log in to view the user info</p>
+                                    <p>User has no favorites</p>
                                 )}
                             </>
                         )}
@@ -67,4 +69,5 @@ export default function Character() {
             </main>
         </Layout>
     );
+
 }
