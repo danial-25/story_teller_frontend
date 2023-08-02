@@ -32,10 +32,12 @@ export default function Fav() {
   // Slice the story_title array to get the stories for the current page
 
   const paginatedStories = story_title.slice(startIndex, endIndex);
+  // console.log(totalPages);
   const visiblePages = Math.min(totalPages, 7);
   const halfVisiblePages = Math.floor(visiblePages / 2);
   let startPage = Math.max(1, currentPage - halfVisiblePages);
   const endPage = Math.min(startPage + visiblePages - 1, totalPages);
+  // console.log(endIndex);
   const handleFirstPage = () => {
     setCurrentPage(1);
   };
@@ -114,7 +116,7 @@ export default function Fav() {
     }
   };
 
-
+  // console.log(visiblePages);
   const handleshare = (title, story_url) => {
     navigator.clipboard
       .writeText(story_url)
@@ -145,55 +147,59 @@ export default function Fav() {
               </div>
             ) : story_title.length > 0 ? (
               <ul className="space-y-4">
-                {paginatedStories.map((title, index) => {
-                  const realIndex = (currentPage - 1) * 12 + index; // Calculate the actual index in the original array
+                {Array.from({ length: storiesPerPage }, (_, index) => {
+                  // console.log(currentPage);
+                  const realIndex = startIndex + index; // Calculate the actual index in the original array
                   const isFavorite = favoriteStories.includes(story_id[realIndex]);
-                  return (
-                    <li key={story_id[realIndex]} className="bg-white p-4 shadow dark:bg-gray-800">
-                      <div className="flex justify-between items-center">
-                        <h3 className="text-lg font-semibold">{story_title[realIndex]}</h3>
+                  // console.log(paginatedStories.length);
+                  if (story_id[realIndex]) {
+                    return (
+                      <li key={story_id[realIndex]} className="bg-white p-4 shadow dark:bg-gray-800">
+                        <div className="flex justify-between items-center">
+                          <h3 className="text-lg font-semibold">{story_title[realIndex]}</h3>
 
-                        <div className="flex space-x-2">
-                          <button
-                            title={favoriteStories.includes(story_id[realIndex]) ? 'Remove from Favorites' : 'Add to Favorites'}
-                            className="relative transition-colors duration-300 focus:outline-none"
-                            onClick={() => handleAddToFavorites(realIndex)}
-                          >
-                            <svg
-                              className={`w-6 h-6 ${favoriteStories.includes(story_id[realIndex]) ? 'text-yellow-500' : ''}`}
-                              fill={`${favoriteStories.includes(story_id[realIndex]) ? 'currentColor' : 'none'}`}
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
+                          <div className="flex space-x-2">
+                            <button
+                              title={favoriteStories.includes(story_id[realIndex]) ? 'Remove from Favorites' : 'Add to Favorites'}
+                              className="relative transition-colors duration-300 focus:outline-none"
+                              onClick={() => handleAddToFavorites(realIndex)}
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
-                                d="M12 2L9.15 8.57 2 9.27l5.18 4.73L5.82 22 12 17.5l6.18 4.5-1.35-7.01L22 9.27l-7.15-.7L12 2z"
-                              />
-                            </svg>
-                          </button>
-                          <button className="flex items-center justify-center w-10 h-10" onClick={() => handleshare(story_title[realIndex], `https://story-teller-lilac.vercel.app/story/${story_id[index]}`)}>
-                            <i className="material-symbols-outlined">share</i>
-                          </button>
+                              <svg
+                                className={`w-6 h-6 ${favoriteStories.includes(story_id[realIndex]) ? 'text-yellow-500' : ''}`}
+                                fill={`${favoriteStories.includes(story_id[realIndex]) ? 'currentColor' : 'none'}`}
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="1.5"
+                                  d="M12 2L9.15 8.57 2 9.27l5.18 4.73L5.82 22 12 17.5l6.18 4.5-1.35-7.01L22 9.27l-7.15-.7L12 2z"
+                                />
+                              </svg>
+                            </button>
+                            <button className="flex items-center justify-center w-10 h-10" onClick={() => handleshare(story_title[realIndex], `https://story-teller-lilac.vercel.app/story/${story_id[realIndex]}`)}>
+                              <i className="material-symbols-outlined">share</i>
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <button
-                        className="text-blue-500 hover:underline mt-2"
-                        onClick={() => handleTitleClick(realIndex)}
-                      >
-                        {selectedStoryIndices.includes(realIndex) ? 'Hide' : 'Show More'}
-                      </button>
-                      {selectedStoryIndices.includes(realIndex) && (
-                        <p className="text-gray-700 whitespace-pre-wrap dark:text-white">{story[realIndex]}</p>
-                      )}
-                      <audio className="mt-2" controls>
-                        <source src={story_audio[realIndex]} type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                      </audio>
-                      {showSharePopup && <SharePopup message={`Link to ${sharedStoryUrl} copied to clipboard`} />}
-                    </li>
-                  );
+                        <button
+                          className="text-blue-500 hover:underline mt-2"
+                          onClick={() => handleTitleClick(realIndex)}
+                        >
+                          {selectedStoryIndices.includes(realIndex) ? 'Hide' : 'Show More'}
+                        </button>
+                        {selectedStoryIndices.includes(realIndex) && (
+                          <p className="text-gray-700 whitespace-pre-wrap dark:text-white">{story[realIndex]}</p>
+                        )}
+                        <audio className="mt-2" controls>
+                          <source src={story_audio[realIndex]} type="audio/mpeg" />
+                          Your browser does not support the audio element.
+                        </audio>
+                        {showSharePopup && <SharePopup message={`Link to ${sharedStoryUrl} copied to clipboard`} />}
+                      </li>
+                    );
+                  }
                 })}
               </ul>
             ) : (
@@ -230,14 +236,15 @@ export default function Fav() {
                   {Array.from({ length: visiblePages }).map((_, index) => {
                     const pageNumber = startPage + index;
                     return (
-                      <button
-                        key={pageNumber}
-                        className={`px-2 py-1 w-8 ${currentPage === pageNumber ? 'bg-gray-500 text-white' : ''
-                          }`}
-                        onClick={() => handlePageChange(pageNumber)}
-                      >
-                        {pageNumber}
-                      </button>
+                      pageNumber <= totalPages && (
+                        <button
+                          key={pageNumber}
+                          className={`px-2 py-1 w-8 ${currentPage === pageNumber ? 'bg-gray-500 text-white' : ''}`}
+                          onClick={() => handlePageChange(pageNumber)}
+                        >
+                          {pageNumber}
+                        </button>
+                      )
                     );
                   })}
 
