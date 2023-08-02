@@ -15,7 +15,23 @@ export default function Favorites() {
 
 
     const [currentPage, setCurrentPage] = useState(1);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+    const checkIsSmallScreen = () => {
+        setIsSmallScreen(window.innerWidth < 640);
+    };
+    useEffect(() => {
+        // Check the screen size on initial load
+        checkIsSmallScreen();
+
+        // Add an event listener to check the screen size when the window is resized
+        window.addEventListener('resize', checkIsSmallScreen);
+
+        // Remove the event listener on component unmount to avoid memory leaks
+        return () => {
+            window.removeEventListener('resize', checkIsSmallScreen);
+        };
+    }, []);
     // Set the number of stories to display per page
     const storiesPerPage = 8;
 
@@ -33,7 +49,15 @@ export default function Favorites() {
 
     const paginatedStories = story_title.slice(startIndex, endIndex);
     // console.log(totalPages);
-    const visiblePages = Math.min(totalPages, 7);
+
+    var visiblePages = 0;
+    console.log(isSmallScreen);
+    if (!isSmallScreen) {
+        var visiblePages = Math.min(totalPages, 7);
+    }
+    else {
+        var visiblePages = Math.min(totalPages, 5);
+    };
     const halfVisiblePages = Math.floor(visiblePages / 2);
     let startPage = Math.max(1, currentPage - halfVisiblePages);
     const endPage = Math.min(startPage + visiblePages - 1, totalPages);
