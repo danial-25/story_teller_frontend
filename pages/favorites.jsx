@@ -106,8 +106,6 @@ export default function Favorites() {
         console.log(index, story_id[index], story_title[index]);
         const storyIdToRemove = story_id[index];
 
-        // setIds(story_id.filter((id) => id !== storyIdToRemove));
-
         try {
             const response = await fetch(`https://story-backend-qu52.onrender.com/user/favorites?story_id=${story_id[index]}&email=${session.user.email}`, {
                 method: 'DELETE',
@@ -118,9 +116,6 @@ export default function Favorites() {
 
 
             if (response.ok) {
-                // Find the index of the storyIdToRemove in the story_id array
-
-                //const removeIndex = story_id.indexOf(storyIdToRemove);
 
                 // Create new arrays with the elements excluding the removeIndex
                 const updatedStoryTitle = story_title.filter((_, i) => i !== index);

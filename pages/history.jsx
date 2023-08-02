@@ -48,7 +48,6 @@ export default function Fav() {
   // Slice the story_title array to get the stories for the current page
 
   const paginatedStories = story_title.slice(startIndex, endIndex);
-  // console.log(totalPages);
   var visiblePages = 0;
   console.log(isSmallScreen);
   if (!isSmallScreen) {
@@ -139,7 +138,6 @@ export default function Fav() {
     }
   };
 
-  // console.log(visiblePages);
   const handleshare = (title, story_url) => {
     navigator.clipboard
       .writeText(story_url)
