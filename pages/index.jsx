@@ -6,6 +6,20 @@ import { useEffect } from 'react';
 const LandingPage = () => {
     const router = useRouter();
     const { data: session, loading } = useSession({ redirectTo: false });
+    useEffect(() => {
+        sendEmptyRequestToBackend();
+    }, []);
+
+    const sendEmptyRequestToBackend = () => {
+        // Make a POST request to the backend using the fetch() function
+        fetch('https://story-backend-qu52.onrender.com', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // You can leave the body empty if you just need to send an empty request
+        });
+    }
     const handleredirect = async (page) => {
         try {
             if (!session) {
@@ -49,7 +63,7 @@ const LandingPage = () => {
                             className="flex flex-col items-center justify-center bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:-translate-y-2 transition-transform"
                             onClick={() => handleredirect('/home')}
                         >
-                            <h4 className="text-2xl font-bold mb-4">Topic-Driven Story Creation</h4>
+                            <h4 className="text-2xl font-bold mb-4 text-center">Topic-Driven Story Creation</h4>
                             <p className="text-lg text-center text-gray-800 dark:text-white">
                                 Enter any topic in 30 languages, and witness the magic! Experience instant story generation using vector databases for similar stories. Enjoy text and audio narratives that take seconds to 1.5 minutes to create. With this feature, you can effortlessly unleash your creativity and indulge in topic-driven storytelling that's as diverse as it is captivating.
                             </p>
@@ -59,7 +73,7 @@ const LandingPage = () => {
                             className="flex flex-col items-center justify-center bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:-translate-y-2 transition-transform"
                             onClick={() => handleredirect('/random')}
                         >
-                            <h4 className="text-2xl font-bold mb-4">Random Stories</h4>
+                            <h4 className="text-2xl font-bold mb-4 text-center">Random Stories</h4>
                             <p className="text-lg text-center text-gray-800 dark:text-white">
                                 Discover our special feature for the curious minds and the seekers of spontaneity - Random Stories! If you're unsure about the topic or simply feeling a bit lazy, worry not! With just a language selection, you'll be instantly delighted with a captivating story in your chosen language. Embrace the element of surprise and let randomness lead you to exciting narratives!
                             </p>
@@ -69,7 +83,7 @@ const LandingPage = () => {
                             className="flex flex-col items-center justify-center bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:-translate-y-2 transition-transform"
                             onClick={() => handleredirect('/user-character')}
                         >
-                            <h4 className="text-2xl font-bold mb-4">Analysis of User's Character</h4>
+                            <h4 className="text-2xl font-bold mb-4 text-center">Analysis of User's Character</h4>
                             <p className="text-lg text-center text-gray-800 dark:text-white">
                                 Explore the captivating world of character analysis within our project! By simply clicking on your username, discover intricate insights into your character. These analyses are intelligently crafted based on the stories you've thoughtfully added to your Favorites. Unravel the depths of your persona and embark on a self-discovery adventure like never before!
                             </p>
