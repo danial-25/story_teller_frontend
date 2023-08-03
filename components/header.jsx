@@ -4,7 +4,9 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 function Header() {
   const { data: session } = useSession();
   const handleLogout = () => {
-    signOut();
+    signOut({
+      callbackUrl: `${window.location.origin}`,
+    })
   };
   const handleGoogleSignIn = () => {
     signIn('google');
