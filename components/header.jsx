@@ -64,9 +64,6 @@ function Header() {
                 <li>
                   <a href="/favorites" className={`${activeTab === '/favorites' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Favorites</a>
                 </li>
-                <li>
-                  <a href="/user-character" className={`${activeTab === '/user-character' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>User</a>
-                </li>
               </ul>
 
               {/* User info */}
@@ -77,7 +74,9 @@ function Header() {
                     alt={session.user.name}
                     className="w-8 h-8 rounded-full mr-2"
                   />
-                  <span className="text-gray-800 dark:text-white font-medium">{session.user.name}</span>
+                  <span className="text-gray-800 dark:text-white font-medium">
+                    <a href='/user-character'>{session.user.name}</a>
+                  </span>
                   <button
                     onClick={handleLogout}
                     className="text-sm text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg px-3 py-1 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none dark:focus:ring-gray-800 ml-2"
