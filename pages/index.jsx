@@ -3,7 +3,16 @@ import Head from 'next/head';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useTheme } from 'next-themes';
+
 const LandingPage = () => {
+    const { resolvedTheme } = useTheme();
+    const logoPath = resolvedTheme === 'dark'
+        ? '/fairytale(3).ico'
+        : resolvedTheme === 'system'
+            ? '/fairytale(3).ico'
+            : '/fairytale(1).png';
+
     const router = useRouter();
     const { data: session, loading } = useSession({ redirectTo: false });
     useEffect(() => {
@@ -37,7 +46,7 @@ const LandingPage = () => {
         <div className="flex flex-col items-center justify-center min-h-screen dark:bg-gray-800 transition-all duration-500">
             <Head>
                 <title>Story Teller</title>
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href={logoPath} />
             </Head>
 
             {/* Landing page content */}

@@ -2,7 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import SharePopup from '@/SharePopup';
 import DropdownMenu from './DropDownMenu';
+import Head from 'next/head';
+import { useTheme } from 'next-themes';
+
 const MyForm = () => {
+    const { resolvedTheme } = useTheme();
+    const logoPath = resolvedTheme === 'dark'
+        ? '/fairytale(3).ico'
+        : resolvedTheme === 'system'
+            ? '/fairytale(3).ico'
+            : '/fairytale(1).png';
     const [inputValue, setInputValue] = useState('');
     const [story, setStory] = useState('');
     const [audio, setAudio] = useState('');
@@ -93,10 +102,10 @@ const MyForm = () => {
             const response = await fetch(`https://story-backend-qu52.onrender.com/user/favorites?story_id=${story_id[index]}&email=${session.user.email}`, {
                 method: 'DELETE',
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
-              });
-              
+            });
+
         }
 
     };
@@ -114,6 +123,10 @@ const MyForm = () => {
     return (
         <div>
             <div className="max-w-xs mx-auto flex items-center justify-center">
+                <Head>
+                    <title>Story Teller</title>
+                    <link rel="icon" href={logoPath} />
+                </Head>
                 <label className="block mb-4">
                     Enter topic:
                     <div className="flex">

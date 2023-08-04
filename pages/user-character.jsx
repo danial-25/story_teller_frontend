@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '@/layout';
 import { useSession } from 'next-auth/react';
-
+import { useTheme } from 'next-themes';
+import Head from 'next/head';
 export default function Character() {
     const [isLoading, setIsLoading] = useState(false); // Initialize to false
     const [character, setCharacter] = useState('');
     const { data: session, status } = useSession();
-
+    const { resolvedTheme } = useTheme();
+    const logoPath = resolvedTheme === 'dark'
+        ? '/fairytale(3).ico'
+        : resolvedTheme === 'system'
+            ? '/fairytale(3).ico'
+            : '/fairytale(1).png';
     useEffect(() => {
         // Check if session is defined and has the 'user' property
         if (session?.user?.email) {
@@ -43,6 +49,10 @@ export default function Character() {
 
     return (
         <Layout>
+            <Head>
+                <title>{session?.user?.name} - Story Teller</title>
+                <link rel="icon" href={logoPath} />
+            </Head>
             <main className="container mx-auto my-8">
                 {status !== 'authenticated' ? (
                     <p>Log in to view the user info</p>

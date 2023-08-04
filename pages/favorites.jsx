@@ -2,7 +2,17 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import SharePopup from '@/SharePopup';
+import { useTheme } from 'next-themes';
+import Head from 'next/head';
+
 export default function Favorites() {
+    const { resolvedTheme } = useTheme();
+    const logoPath = resolvedTheme === 'dark'
+        ? '/fairytale(3).ico'
+        : resolvedTheme === 'system'
+            ? '/fairytale(3).ico'
+            : '/fairytale(1).png';
+
     const { data: session, status } = useSession();
     const [story_title, setStoryTitle] = useState([]);
     const [story_audio, setStoryAudio] = useState([]);
@@ -169,6 +179,10 @@ export default function Favorites() {
 
     return (
         <Layout>
+            <Head>
+                <title>Favorites - Story Teller</title>
+                <link rel="icon" href={logoPath} />
+            </Head>
             <main className="container mx-auto my-8">
                 {status === 'authenticated' && (
                     <>

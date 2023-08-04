@@ -2,6 +2,8 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import SharePopup from '@/SharePopup';
+import Head from 'next/head';
+import { useTheme } from 'next-themes';
 
 export default function Fav() {
   const { data: session, status } = useSession();
@@ -16,7 +18,12 @@ export default function Fav() {
   const [timeoutId, setTimeoutId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-
+  const { resolvedTheme } = useTheme();
+  const logoPath = resolvedTheme === 'dark'
+    ? '/fairytale(3).ico'
+    : resolvedTheme === 'system'
+      ? '/fairytale(3).ico'
+      : '/fairytale(1).png';
   const checkIsSmallScreen = () => {
     setIsSmallScreen(window.innerWidth < 640);
   };
@@ -157,6 +164,10 @@ export default function Fav() {
   };
   return (
     <Layout>
+      <Head>
+        <title>History - Story Teller</title>
+        <link rel="icon" href={logoPath} />
+      </Head>
       <main className="container mx-auto my-8">
         {status === 'authenticated' && (
           <>

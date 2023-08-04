@@ -3,7 +3,16 @@ import { useSession } from 'next-auth/react';
 import SharePopup from '@/SharePopup';
 import DropdownMenu from '@/DropDownMenu';
 import Layout from '@/layout';
+import Head from 'next/head';
+import { useTheme } from 'next-themes';
+
 export default function random() {
+    const { resolvedTheme } = useTheme();
+    const logoPath = resolvedTheme === 'dark'
+        ? '/fairytale(3).ico'
+        : resolvedTheme === 'system'
+            ? '/fairytale(3).ico'
+            : '/fairytale(1).png';
     const [story, setStory] = useState('');
     const [audio, setAudio] = useState('');
     const [error, setError] = useState('');
@@ -146,6 +155,10 @@ export default function random() {
     };
     return (
         <Layout>
+            <Head>
+                <title>Random - Story Teller</title>
+                <link rel="icon" href={logoPath} />
+            </Head>
             <div className="max-w-xs mx-auto">
                 <h1 className="text-xl flex justify-center font-semibold mb-4">Generate a random story</h1>
                 <div className="flex justify-center items-center mb-4"> {/* Add "items-center" class here */}

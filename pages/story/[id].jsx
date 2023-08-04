@@ -2,7 +2,15 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, useRef } from 'react';
 import Layout from '@/layout';
 import SharePopup from '@/SharePopup';
+import Head from 'next/head';
+import { useTheme } from 'next-themes';
 export default function StoryPage() {
+    const { resolvedTheme } = useTheme();
+    const logoPath = resolvedTheme === 'dark'
+        ? '/fairytale(3).ico'
+        : resolvedTheme === 'system'
+            ? '/fairytale(3).ico'
+            : '/fairytale(1).png';
     const router = useRouter();
     const { id } = router.query;
     const [story, setStory] = useState('');
@@ -65,6 +73,10 @@ export default function StoryPage() {
 
     return (
         <Layout>
+            <Head>
+                <title>Story Teller</title>
+                <link rel="icon" href={logoPath} />
+            </Head>
             <div>
                 {error && <p className="text-red-500 mt-4">{error}</p>}
                 {story && (
