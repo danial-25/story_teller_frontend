@@ -53,7 +53,7 @@ function Header() {
               <ul className={`hidden lg:flex mt-4 font-medium space-x-8 ${isSmallScreen ? 'lg:hidden' : ''}`}>
                 {/* Navigation links */}
                 <li>
-                  <a href="/" className={`${activeTab === '/home' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Home</a>
+                  <a href="/home" className={`${activeTab === '/home' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Home</a>
                 </li>
                 <li>
                   <a href="/random" className={`${activeTab === '/random' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Random</a>
@@ -173,7 +173,7 @@ function Header() {
         <div className={`lg:hidden ${isMobileMenuOpen ? '' : 'hidden'}`}>
           <ul className="flex justify-center items-center mt-4 font-medium space-x-8">
             <li>
-              <a href="/" className={`${activeTab === '/' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Home</a>
+              <a href="/home" className={`${activeTab === '/home' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Home</a>
             </li>
             <li>
               <a href="/random" className={`${activeTab === '/random' ? 'dark:text-white text-primary-700' : 'text-gray-700 hover:text-primary-700 dark:text-gray-400 dark:hover:text-white'}`}>Random</a>
