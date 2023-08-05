@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import SharePopup from '@/SharePopup';
 import DropdownMenu from './DropDownMenu';
 import Head from 'next/head';

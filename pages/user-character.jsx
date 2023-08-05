@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '@/layout';
-import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Head from 'next/head';
 import { useSession, signIn, signOut } from 'next-auth/react';

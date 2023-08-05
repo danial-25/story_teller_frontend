@@ -1,4 +1,3 @@
-import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import SharePopup from '@/SharePopup';
