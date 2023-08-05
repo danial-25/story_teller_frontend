@@ -3,6 +3,8 @@ import Layout from '@/layout';
 import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Head from 'next/head';
+import { useSession, signIn, signOut } from 'next-auth/react';
+
 export default function Character() {
     const [isLoading, setIsLoading] = useState(false); // Initialize to false
     const [character, setCharacter] = useState('');
@@ -13,6 +15,17 @@ export default function Character() {
         : resolvedTheme === 'system'
             ? '/fairytale(3).ico'
             : '/fairytale(1).png';
+    useEffect(() => {
+        // If the session status is 'loading', the authentication status is being checked.
+        // If the session status is 'authenticated', the user is signed in, and they can access the custom page.
+        // If the session status is 'unauthenticated', the user is not signed in, and we redirect them to the sign-in page.
+        if (status === 'loading') return;
+
+        if (!session?.user) {
+            // Replace '/sign-in' with the path to your sign-in page.
+            signIn('google')
+        }
+    }, [session]);
     useEffect(() => {
         // Check if session is defined and has the 'user' property
         if (session?.user?.email) {

@@ -4,6 +4,7 @@ import SharePopup from '@/SharePopup';
 import DropdownMenu from './DropDownMenu';
 import Head from 'next/head';
 import { useTheme } from 'next-themes';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 const MyForm = () => {
     const { resolvedTheme } = useTheme();
@@ -20,10 +21,21 @@ const MyForm = () => {
     const [isFavorite, setIsFavorite] = useState(false); // New state for favorite status
     const [story_id, setStoryId] = useState('');
     const audioRef = useRef(null);
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [story_url, setUrl] = useState('');
     const [showSharePopup, setShowSharePopup] = useState(false);
     const [language, setLanguage] = useState('');
+    useEffect(() => {
+        // If the session status is 'loading', the authentication status is being checked.
+        // If the session status is 'authenticated', the user is signed in, and they can access the custom page.
+        // If the session status is 'unauthenticated', the user is not signed in, and we redirect them to the sign-in page.
+        if (status === 'loading') return;
+
+        if (!session?.user) {
+            // Replace '/sign-in' with the path to your sign-in page.
+            signIn('google')
+        }
+    }, [session]);
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.load();
